@@ -18,7 +18,6 @@ class Forecast extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    // Get the user's location
     this.setState({isloading: true});
     this.props.WeatherDataAPI();
   }
@@ -38,14 +37,6 @@ class Forecast extends Component {
         () => {
           console.log(this.state.forecast);
         };
-      // var date = new Date(forecast.detail.dt * 1000);
-
-      // var hours = date.getHours();
-
-      // var minutes = '0' + date.getMinutes();
-
-      // time = hours + ':' + minutes.substr(-2);
-      // console.log(date, hours, minutes, time);
     } else {
       this.setState({iserror: true});
       this.setState({isloading: false});
