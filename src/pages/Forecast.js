@@ -3,13 +3,14 @@ import {Text, View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import Loader from '../components/Loader';
 import {WeatherDataAPI} from '../reduxprovider/actions/ActionWeatherdata';
 import {connect} from 'react-redux';
+import ForecastUI from './ForecastUI';
 
 class Forecast extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      forecast: [],
+      forecast: '',
       error: '',
       isloading: false,
       iserror: false,
@@ -21,11 +22,30 @@ class Forecast extends Component {
     this.setState({isloading: true});
     this.props.WeatherDataAPI();
   }
+  getdate(date) {
+    console.log(date);
+    var date = new Date(date * 1000);
+
+    return <Text>{date}</Text>;
+  }
   UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log('data------->', nextProps.ReducerWeatherdata.data);
+    console.log('data------->', nextProps.ReducerWeatherdata.status);
+
     if (nextProps.ReducerWeatherdata.status === 200) {
       this.setState({isloading: false});
-      console.log(nextProps);
+      var data = nextProps.ReducerWeatherdata.data;
+      this.setState({forecast: data}),
+        () => {
+          console.log(this.state.forecast);
+        };
+      // var date = new Date(forecast.detail.dt * 1000);
+
+      // var hours = date.getHours();
+
+      // var minutes = '0' + date.getMinutes();
+
+      // time = hours + ':' + minutes.substr(-2);
+      // console.log(date, hours, minutes, time);
     } else {
       this.setState({iserror: true});
       this.setState({isloading: false});
@@ -33,6 +53,7 @@ class Forecast extends Component {
   }
   render() {
     const {isloading, iserror, forecast} = this.state;
+
     return isloading ? (
       <Loader isloading={isloading} />
     ) : (
@@ -43,9 +64,10 @@ class Forecast extends Component {
             style={{marginTop: 20}}
             keyExtractor={(item) => item.dt_txt}
             renderItem={({item}) => (
-              <View>
-                <Text>{item.main.temp} &#8451;</Text>
-              </View>
+              <ForecastUI
+                detail={item}
+                location={this.state.forecast.city.name}
+              />
             )}
           />
         ) : (

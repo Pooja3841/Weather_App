@@ -12,21 +12,12 @@ export function Weatherdata(data) {
 export function WeatherDataAPI() {
   return (dispatch) => {
     Geolocation.getCurrentPosition((position) => {
-      // var data1 = getdata(position.coords.latitude, position.coords.longitude);
       let url =
         'https://api.openweathermap.org/data/2.5/forecast?lat=' +
         position.coords.latitude +
         '&lon=' +
         position.coords.longitude +
         '&units=metric&appid=7879299e519b4300e82c6c32780195bf';
-
-      // fetch(url)
-      //   .then((response) => response.json())
-      //   .then((data) => {
-      //     this.setState((prevState, props) => ({
-      //       forecast: data,
-      //     }));
-      //   });
 
       const api = create({
         baseURL: url,
@@ -57,14 +48,6 @@ getdata = (latitude, longitude) => {
     '&lon=' +
     longitude +
     '&units=metric&appid=7879299e519b4300e82c6c32780195bf';
-
-  // fetch(url)
-  //   .then((response) => response.json())
-  //   .then((data) => {
-  //     this.setState((prevState, props) => ({
-  //       forecast: data,
-  //     }));
-  //   });
 
   const api = create({
     baseURL: url,
